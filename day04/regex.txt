@@ -1,0 +1,13 @@
+(?sm)(^((?<key>[\w]+):(?<value>[\w#]+)\s?)+$)+(^$)?
+
+(?sm)
+(
+    (
+        (?:
+            (?:
+                (?:byr:(?<byr>\d{4}))|(?:iyr:(?<iyr>\d{4})|(?:eyr:(?<eyr>\d{4})|(?:hgt:(?<hgt>\d*)(?<hgtu>cm|in))|(?:hcl:(?<hcl>#[0-9a-f]{6}))|(?:ecl:(?<ecl>amb|blu|brn|gry|grn|hzl|oth))|(?:pid:(?<pid>\d{9}))
+            )\s?
+        )
+    )+
+    (^$)?
+)
