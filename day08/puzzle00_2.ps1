@@ -8,7 +8,7 @@ $timer = [System.Diagnostics.Stopwatch]::StartNew()
 while($fix -lt $entries.Count ){
     $i = 0
     $acc = 0
-    write-host "------- $fix -----------------"
+    # write-host "------- $fix -----------------"
 
     do{
         $cmd = $entries2[$i].trim() -split ' '
@@ -19,7 +19,7 @@ while($fix -lt $entries.Count ){
             break;
         }
         $entries2[$i] = "$($cmd[0]) $($cmd[1]) $($cmd[2])"
-        $ib = $i
+        # $ib = $i
         switch($cmd[0]){
             'nop' {
                 $i+= 1 
@@ -32,7 +32,7 @@ while($fix -lt $entries.Count ){
                 $i+= [int]$cmd[1]
             }
         }
-        write-host "$fix / $ib -> $i | $($entries2[$ib])-> $($entries2[$i])"
+        # write-host "$fix / $ib -> $i | $($entries2[$ib])-> $($entries2[$i])"
         if($i -ge $entries2.Count){
             write-host "Solution is $acc"
         }
@@ -52,7 +52,7 @@ while($fix -lt $entries.Count ){
     }elseif($entries[$fix] -match 'jmp'){
         $entries2[$fix] = $before -replace 'jmp', 'nop'
     }
-    write-host "$fix : $before becomes $($entries2[$fix])"
+    # write-host "$fix : $before becomes $($entries2[$fix])"
 
 }
 
