@@ -1,5 +1,5 @@
-#$entries = Get-Content './input.txt'
-$entries = Get-Content './test.txt'
+$entries = Get-Content './input.txt'
+#$entries = Get-Content './test.txt'
 
 for($e = 1; $e -lt $entries.Count; $e++){
     $timer = [System.Diagnostics.Stopwatch]::StartNew()
