@@ -14,13 +14,13 @@ for($i = 0; $i -lt $input.count; $i++){
 $t = $input[-1]
 $new = $true
 $previous = $input[-1]
-for($i = $input.count+1; $i -le 2020; $i++){
-    
+$timer = [System.Diagnostics.Stopwatch]::StartNew()
+for($i = $input.count+1; $i -le 30000000; $i++){
     if($new){
         $t = 0
-        write-host "$i : $previous was new therefore speak $t  : `$counts[$t] = $i"
+        #write-host "$i : $previous was new therefore speak $t  : `$counts[$t] = $i"
     }else{
-        write-host "$i : $previous was NOT new therefore speak $($counts[$t])-$previous = $($counts[$t] - $previous) and  : `$counts[$($counts[$t] - $previous)] = $i"
+        #write-host "$i : $previous was NOT new therefore speak $($counts[$t])-$previous = $($counts[$t] - $previous) and  : `$counts[$($counts[$t] - $previous)] = $i"
         $t = $counts[$t] - $previous
     }
 
@@ -31,7 +31,9 @@ for($i = $input.count+1; $i -le 2020; $i++){
         $previous = $counts[$t]
         $counts[$t] = $i
     }
-   
+    if($i % 100000 -eq 0){
+        write-host "$i : ... $($timer.Elapsed)"
+    }
 }
 
 write-host "Solution is $t"
