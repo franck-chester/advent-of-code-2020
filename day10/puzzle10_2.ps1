@@ -10,31 +10,51 @@ $entries += $max + 3
 write-host "$($entries -join ',')"
  
 $counts = @(0) * $entries.Count
-for ($i = 2; $i -lt $entries.Count - 1; $i++) {
-    $counts[$i]++  # single
-    $countSoFar = @(1)
+$counts[0]=1
+$counts[1]=1
 
-    if ($entries[$i + 1] - $entries[$j-1] -le 3) {
-        $counts[$i]++ # preceding single
-        $countSoFar += 1
+for ($i = 2; $i -lt $entries.Count - 1; $i++) {
+    $countSoFar = @()
+
+    $j=0
+
+    if( $entries[$i+1]-$entries[$i-1] -gt 3){
+        # can't remove that adapter, therefore no variations for it
+        write-host "$i : 0 ($($entries[$i+1])-$($entries[$i-1]) > 3)"
+        continue
+    }else{
+        $counts[$i]+= 1
+        $countSoFar+= "1"
+    }
     
-        for ($j = $i - 1; $j -gt 0; $j--) {
-            if ($entries[$i + 1] - $entries[$j-1] -gt 3) {
-                # skip entries forming a contiguous range
-                break;
+    $j = $i - 1
+    $gap = $counts[$j] -eq 0 -or $entries[$i+1]-$entries[$j-2] -gt 3
+    while($j -gt 1 -and !$gap){
+        if(!$gap){
+            $gap = $true
+            $counts[$i]+= $counts[$j]  
+            $countSoFar+= "$($counts[$j]) [$($counts[$j]) = 0 or $($entries[$i+1])-$($entries[$j-2]) > 3]"
+        }else{
+            if($counts[$j] -gt 0){
+                $counts[$i]+= 1
+                $countSoFar+= "1 [$($entries[$i+1])-$($entries[$j-2]) > 3]"
+            }else{
+                
+                $counts[$i]+= 0
+                $countSoFar+= "0 [$($entries[$i+1])-$($entries[$j-2]) > 3]"
             }
         }
-    }else{
-        $j= $i-1
-    }
-
-    
-    for ($k = 2; $k -lt $j; $k++) {
-        $counts[$i] += $counts[$k]
-        $countSoFar += $counts[$k]
+        $j--
     }
     
-    write-host "$i : $($counts[$i]) = $($countSoFar -join '+')---------------"
+    # first gap - can start adding all previous variations
+    while($j -gt 0){
+        $counts[$i]+= $counts[$j]
+        $countSoFar+= "$($counts[$j])"
+        $j--
+    }
+        
+    write-host "$i : $($counts[$i]) = $($countSoFar -join ' + ')"
 }
 $total = 0
 for ($i = 1; $i -lt $entries.Count - 1; $i++) {
